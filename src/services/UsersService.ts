@@ -20,13 +20,21 @@ class UsersService {
       return userExists
     }
 
-    const users = this.usersRepository.create({
+    const user = this.usersRepository.create({
       email
     })
 
-    await this.usersRepository.save(users)
+    await this.usersRepository.save(user)
 
-    return users
+    return user
+  }
+
+  async findByEmail(email: string) {
+    const userExists = await this.usersRepository.findOne({
+      email
+    })
+
+    return userExists
   }
 }
 
