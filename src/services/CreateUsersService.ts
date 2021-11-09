@@ -5,7 +5,7 @@ import { User } from "../entities/User"
 
 
 class CreateUsersService {
-  private usersRepository: Repository<User>
+  public usersRepository: Repository<User>
 
   constructor() {
     this.usersRepository = getCustomRepository(UsersRepository)

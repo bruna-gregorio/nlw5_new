@@ -1,16 +1,8 @@
-import { getCustomRepository, Repository } from "typeorm"
-
-import { SettingsRepository } from "../repositories/SettingsRepository"
 import { Setting } from "../entities/Setting"
+import { CreateSettingsService } from "./CreateSettingsService"
 
 
-class UpdateSettingsService {
-  private settingsRepository: Repository<Setting>
-
-  constructor() {
-    this.settingsRepository = getCustomRepository(SettingsRepository)
-  }
-
+class UpdateSettingsService extends CreateSettingsService {
   async update(username: string, chat: boolean) {
     await this.settingsRepository
       .createQueryBuilder()

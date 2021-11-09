@@ -1,15 +1,6 @@
-import { getCustomRepository, Repository } from "typeorm"
+import { CreateSettingsService } from "./CreateSettingsService"
 
-import { SettingsRepository } from "../repositories/SettingsRepository"
-import { Setting } from "../entities/Setting"
-
-class SettingsService {
-  private settingsRepository: Repository<Setting>
-
-  constructor() {
-    this.settingsRepository = getCustomRepository(SettingsRepository)
-  }
-
+class FindUserSettingsService extends CreateSettingsService {
   async findByUsername(username: string) {
     const settings = await this.settingsRepository.findOne({
       username
@@ -19,4 +10,4 @@ class SettingsService {
   }
 }
 
-export { SettingsService }
+export { FindUserSettingsService }

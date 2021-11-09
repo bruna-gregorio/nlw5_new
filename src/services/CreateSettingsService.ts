@@ -11,7 +11,7 @@ interface ISettingsCreate {
 
 
 class CreateSettingsService {
-  private settingsRepository: Repository<Setting>
+  public settingsRepository: Repository<Setting>
 
   constructor() {
     this.settingsRepository = getCustomRepository(SettingsRepository)

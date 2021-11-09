@@ -1,16 +1,7 @@
-import { getCustomRepository, Repository } from "typeorm"
-
-import { MessagesRepository } from "../repositories/MessagesRepository"
-import { Message } from "../entities/Message"
+import { CreateMessagesService } from "../services/CreateMessagesService"
 
 
-class ListMessagesByUserService {
-  private messagesRepository: Repository<Message>
-
-  constructor() {
-    this.messagesRepository = getCustomRepository(MessagesRepository)
-  }
-
+class ListMessagesByUserService extends CreateMessagesService {
   async listByUser(user_id: string) {
     const list = await this.messagesRepository.find({
       where: { user_id },
