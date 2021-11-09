@@ -4,7 +4,7 @@ import { UsersRepository } from "../repositories/UsersRepository"
 import { User } from "../entities/User"
 
 
-class UsersService {
+class CreateUsersService {
   private usersRepository: Repository<User>
 
   constructor() {
@@ -28,14 +28,6 @@ class UsersService {
 
     return user
   }
-
-  async findByEmail(email: string) {
-    const userExists = await this.usersRepository.findOne({
-      email
-    })
-
-    return userExists
-  }
 }
 
-export { UsersService }
+export { CreateUsersService }

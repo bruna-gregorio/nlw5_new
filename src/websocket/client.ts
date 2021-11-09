@@ -1,6 +1,7 @@
 import { io } from "../http"
 import { ConnectionsService } from "../services/ConnectionsService"
-import { UsersService } from "../services/UsersService"
+import { CreateUsersService } from "../services/CreateUsersService"
+import { FindUsersService } from "../services/FindUsersService"
 import { MessagesService } from "../services/MessagesService"
 
 interface IParams {
@@ -10,7 +11,8 @@ interface IParams {
 
 io.on("connect", (socket) => {
   const connectionsService = new ConnectionsService()
-  const usersService = new UsersService()
+  const createUsersService = new CreateUsersService()
+  const findUsersService = new FindUsersService()
   const messagesService = new MessagesService()
 
   socket.on("client_first_access", async (params) => {
@@ -18,10 +20,10 @@ io.on("connect", (socket) => {
     const { text, email } = params as IParams
     let user_id = null
 
-    const userExists = await usersService.findByEmail(email)
+    const userExists = await findUsersService.findByEmail(email)
 
     if (!userExists) {
-      const user = await usersService.create(email)
+      const user = await createUsersService.create(email)
 
       await connectionsService.create({
         socket_id,
