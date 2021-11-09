@@ -2,7 +2,8 @@ import { io } from "../http"
 import { ConnectionsService } from "../services/ConnectionsService"
 import { CreateUsersService } from "../services/CreateUsersService"
 import { FindUsersService } from "../services/FindUsersService"
-import { MessagesService } from "../services/MessagesService"
+import { CreateMessagesService } from "../services/CreateMessagesService"
+import { ListMessagesByUserService } from "../services/ListMessagesByUserService"
 
 interface IParams {
   text: string;
@@ -13,7 +14,8 @@ io.on("connect", (socket) => {
   const connectionsService = new ConnectionsService()
   const createUsersService = new CreateUsersService()
   const findUsersService = new FindUsersService()
-  const messagesService = new MessagesService()
+  const createMessagesService = new CreateMessagesService()
+  const listMessagesByUserService = new ListMessagesByUserService()
 
   socket.on("client_first_access", async (params) => {
     const socket_id = socket.id
@@ -47,12 +49,12 @@ io.on("connect", (socket) => {
       }
     }
 
-    await messagesService.create({
+    await createMessagesService.create({
       text,
       user_id
     })
 
-    const allMessages = await messagesService.listByUser(user_id)
+    const allMessages = await listMessagesByUserService.listByUser(user_id)
 
     socket.emit("client_list_all_messages", allMessages)
 
@@ -67,7 +69,7 @@ io.on("connect", (socket) => {
 
     const { user_id } = await connectionsService.findBySocketID(socket.id)
 
-    const message = await messagesService.create({
+    const message = await createMessagesService.create({
       text,
       user_id
     })

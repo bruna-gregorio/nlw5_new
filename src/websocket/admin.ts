@@ -1,11 +1,13 @@
 import { io } from "../http";
 import { ConnectionsService } from "../services/ConnectionsService";
-import { MessagesService } from "../services/MessagesService";
+import { CreateMessagesService } from "../services/CreateMessagesService";
+import { ListMessagesByUserService } from "../services/ListMessagesByUserService";
 
 
 io.on("connect", async (socket) => {
   const connectionsService = new ConnectionsService()
-  const messagesService = new MessagesService()
+  const createMessagesService = new CreateMessagesService()
+  const listMessagesByUserService = new ListMessagesByUserService()
 
   const allConnectionsWithoutAdmin = await connectionsService.findAllWithoutAdmin()
 
@@ -14,7 +16,7 @@ io.on("connect", async (socket) => {
   socket.on("admin_list_messages_by_user", async (params, callback) => {
     const { user_id } = params
 
-    const allMessages = await messagesService.listByUser(user_id)
+    const allMessages = await listMessagesByUserService.listByUser(user_id)
 
     callback(allMessages)
   })
@@ -22,7 +24,7 @@ io.on("connect", async (socket) => {
   socket.on("admin_send_message", async (params) => {
     const { user_id, text } = params
 
-    await messagesService.create({
+    await createMessagesService.create({
       text,
       user_id,
       admin_id: socket.id
